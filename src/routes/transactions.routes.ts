@@ -4,6 +4,7 @@ import TransactionsRepository from '../repositories/TransactionsRepository';
 
 // import TransactionsRepository from '../repositories/TransactionsRepository';
 import CreateTransactionService from '../services/CreateTransactionService';
+import DeleteTransactionService from '../services/DeleteTransactionService';
 // import DeleteTransactionService from '../services/DeleteTransactionService';
 // import ImportTransactionsService from '../services/ImportTransactionsService';
 
@@ -33,7 +34,12 @@ transactionsRouter.post('/', async (req: Request, res: Response) => {
 });
 
 transactionsRouter.delete('/:id', async (req: Request, res: Response) => {
-  // TODO
+  const {id} = req.params;
+
+  const deleteTransactionService = new DeleteTransactionService();
+  deleteTransactionService.execute(id);
+
+  return res.status(204).send();
 });
 
 transactionsRouter.post('/import', async (req: Request, res: Response) => {

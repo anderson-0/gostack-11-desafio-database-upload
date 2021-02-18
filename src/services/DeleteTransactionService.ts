@@ -6,7 +6,7 @@ class DeleteTransactionService {
   public async execute(id: string): Promise<void> {
     const transactionRepository = getCustomRepository(TransactionsRepository);
 
-    const transaction = transactionRepository.findOne(id);
+    const transaction = await transactionRepository.findOne(id);
 
     if (!transaction) {
       throw new AppError('Invalid Transaction ID');

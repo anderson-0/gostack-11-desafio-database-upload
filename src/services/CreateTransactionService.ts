@@ -21,6 +21,14 @@ class CreateTransactionService {
     const transactionRepository = getCustomRepository(TransactionsRepository);
     const categoryRepository = getRepository(Category);
 
+    const { total } = await transactionRepository.getBalance();
+
+    if (type === 'outcome' && total < value) {
+      throw new AppError(
+        `Your balance is lower than the new transaction.\nCurrent Balance: ${total}`,
+      );
+    }
+
     let transactionCategory = await categoryRepository.findOne({
       where: {
         title: category,
@@ -39,7 +47,7 @@ class CreateTransactionService {
       title,
       value,
       type,
-      category_id: transactionCategory.id,
+      category: transactionCategory,
     });
 
     await transactionRepository.save(transaction);

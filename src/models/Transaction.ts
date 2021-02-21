@@ -23,7 +23,9 @@ class Transaction {
   @Column('decimal')
   value: number;
 
-  @ManyToOne(() => Category)
+  // ManyToOne -> Several transactions can be in the same category
+  // Eager Loading will bring the whole Category object when we load the the Transaction from the DB
+  @ManyToOne(() => Category, category => category.transaction, { eager: true })
   @JoinColumn({ name: 'category_id' })
   category: Category;
 
